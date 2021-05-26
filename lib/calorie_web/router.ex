@@ -7,6 +7,7 @@ defmodule CalorieWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug CalorieWeb.Auth
   end
 
   pipeline :api do
@@ -18,7 +19,7 @@ defmodule CalorieWeb.Router do
 
     get "/", PageController, :index
     resources "/users", UserController, only: [:index, :show, :new, :create]
-
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
   # Other scopes may use custom stacks.
