@@ -23,7 +23,9 @@ defmodule CalorieWeb do
 
       import Plug.Conn
       import CalorieWeb.Gettext
+      import CalorieWeb.Auth, only: [authenticate_user: 2] #New import
       alias CalorieWeb.Router.Helpers, as: Routes
+
     end
   end
 
@@ -50,6 +52,7 @@ defmodule CalorieWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import CalorieWeb.Auth, only: [authenticate_user: 2] #New import
     end
   end
 

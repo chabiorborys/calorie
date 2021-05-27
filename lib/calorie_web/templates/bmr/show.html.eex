@@ -1,0 +1,23 @@
+<h1>Show Bmr</h1>
+
+<ul>
+
+  <li>
+    <strong>Weight:</strong>
+    <%= @bmr.weight %>
+  </li>
+
+  <li>
+    <strong>Age:</strong>
+    <%= @bmr.age %>
+  </li>
+
+  <li>
+    <strong>Height:</strong>
+    <%= @bmr.height %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.bmr_path(@conn, :edit, @bmr) %></span>
+<span><%= link "Back", to: Routes.bmr_path(@conn, :index) %></span>

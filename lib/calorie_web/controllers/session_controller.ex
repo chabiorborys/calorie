@@ -12,6 +12,7 @@ defmodule CalorieWeb.SessionController do
         |> CalorieWeb.Auth.login(user)
         |> put_flash(:info, "Welcome back!")
         |> redirect(to: Routes.page_path(conn, :index))
+        IO.inspect(conn)
 
       {:error, _reason} ->
         conn

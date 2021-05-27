@@ -1,6 +1,6 @@
 <section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>A productive web framework that<br/>does not compromise speed or maintainability.</p>
+  <h1><%= gettext "Welcome to %{name}!", name: "Calories" %></h1>
+  <p>An app that will help you<br/>keep your diet in line!</p>
 </section>
 
 <section class="row">

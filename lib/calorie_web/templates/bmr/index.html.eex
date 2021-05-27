@@ -1,0 +1,30 @@
+<h1>Listing Bmrs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Weight</th>
+      <th>Age</th>
+      <th>Height</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for bmr <- @bmrs do %>
+    <tr>
+      <td><%= bmr.weight %></td>
+      <td><%= bmr.age %></td>
+      <td><%= bmr.height %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.bmr_path(@conn, :show, bmr) %></span>
+        <span><%= link "Edit", to: Routes.bmr_path(@conn, :edit, bmr) %></span>
+        <span><%= link "Delete", to: Routes.bmr_path(@conn, :delete, bmr), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Bmr", to: Routes.bmr_path(@conn, :new) %></span>
