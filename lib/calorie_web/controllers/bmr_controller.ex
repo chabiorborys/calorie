@@ -3,6 +3,7 @@ defmodule CalorieWeb.BmrController do
 
   alias Calorie.Cpm
   alias Calorie.Cpm.Bmr
+  alias Calorie.Products
 
   def action(conn, _) do
     args = [conn, conn.params, conn.assigns.current_user]
@@ -25,6 +26,7 @@ defmodule CalorieWeb.BmrController do
         conn
         |> put_flash(:info, "Bmr created successfully.")
         |> redirect(to: Routes.bmr_path(conn, :show, bmr))
+        IO.inspect(conn)
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -32,8 +34,28 @@ defmodule CalorieWeb.BmrController do
   end
 
   def show(conn, %{"id" => id}, current_user) do
+    #Retrviving users bmr inforamtions
     bmr = Cpm.get_user_bmr!(current_user, id)
-    render(conn, "show.html", bmr: bmr)
+    #Calculating users bmr
+    user_bmr =
+      case bmr.sex do
+        "Female" -> (9.99 * bmr.weight + 6.25 * bmr.height - 4.92 * bmr.age) - 161
+        "Male" -> (9.99 * bmr.weight + 6.25 * bmr.height - 4.92 * bmr.age) + 5
+      end
+    #Calculating users cpm
+    user_cpm =
+      case bmr.physical_activity do
+        "Inactivity, sedentary work" -> user_bmr * 1.2
+        "Low activity, sedentary work, 1-2 workouts a week" -> user_bmr * 1.3
+        "Medium activity, sedentary work, 3-4 workouts a week" -> user_bmr * 1.5
+        "High activity, physical work, 3-4 workouts a week" -> user_bmr * 1.7
+        "Very high activity, professional athletes, people training every day" -> user_bmr * 1.9
+      end
+    #Retriving products
+    products = Products.list_foods
+
+
+    render(conn, "show.html", bmr: bmr, user_bmr: user_bmr, user_cpm: user_cpm, products: products)
   end
 
   def edit(conn, %{"id" => id}, current_user) do

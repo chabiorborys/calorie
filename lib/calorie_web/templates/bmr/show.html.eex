@@ -1,5 +1,4 @@
 <h1>Show Bmr</h1>
-
 <ul>
 
   <li>
@@ -17,7 +16,25 @@
     <%= @bmr.height %>
   </li>
 
+  <li>
+    <strong>Sex:</strong>
+    <%= @bmr.sex %>
+  </li>
+
+  <li>
+    <strong>Physical Activity:</strong>
+    <%= @bmr.physical_activity %>
 </ul>
+<h3>Your Bmr => <%= @user_bmr %></h3>
+<h3>Your Cpm => <%= @user_cpm %></h3>
+<h1>Products</h1>
+
+<%= for product <- @products do %>
+  <ul>
+    <p><%= product.name %></p>
+    <p><%= product.calories %></p>
+  </ul>
+<% end %>
 
 <span><%= link "Edit", to: Routes.bmr_path(@conn, :edit, @bmr) %></span>
 <span><%= link "Back", to: Routes.bmr_path(@conn, :index) %></span>

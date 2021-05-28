@@ -5,17 +5,13 @@
 
 <section class="row">
   <article class="column">
-    <h2>Resources</h2>
+    <h2>Your Profile</h2>
     <ul>
+    <%= if @current_user do %>
       <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
+        <%= link "Your Cpm", to: Routes.bmr_path(@conn, :index) %>
       </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.4/CHANGELOG.md">v1.4 Changelog</a>
-      </li>
+    <% end %>
     </ul>
   </article>
   <article class="column">

@@ -18,8 +18,18 @@
   <%= error_tag f, :height %>
 
   <%= label f, :sex %>
-  <%= select f, :sex, prompt: "Choose sex" %>
+  <%= select f, :sex, ["Male", "Female"], prompt: "Choose sex" %>
   <%= error_tag f, :sex%>
+
+  <%= label f, :physical_activity %>
+  <%= select f, :physical_activity,
+      ["Inactivity, sedentary work", 
+       "Low activity, sedentary work, 1-2 workouts a week",
+       "Medium activity, sedentary work, 3-4 workouts a week",
+       "High activity, physical work, 3-4 workouts a week",
+       "Very high activity, professional athletes, people training every day"],
+      prompt: "Choose your life activity" %>
+  <%= error_tag f, :physical_activity%>
 
   <div>
     <%= submit "Save" %>
