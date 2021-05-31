@@ -9,7 +9,7 @@
     <ul>
     <%= if @current_user do %>
       <li>
-        <%= link "Your Cpm", to: Routes.bmr_path(@conn, :index) %>
+        <%= link "Your Cpm", to: Routes.physical_profile_path(@conn, :index) %>
       </li>
     <% end %>
     </ul>

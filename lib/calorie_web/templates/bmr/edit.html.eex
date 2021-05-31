@@ -1,5 +1,0 @@
-<h1>Edit Bmr</h1>
-
-<%= render "form.html", Map.put(assigns, :action, Routes.bmr_path(@conn, :update, @bmr)) %>
-
-<span><%= link "Back", to: Routes.bmr_path(@conn, :index) %></span>

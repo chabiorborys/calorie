@@ -26,7 +26,7 @@ defmodule CalorieWeb.Router do
   scope "/manage", CalorieWeb do
     pipe_through [:browser, :authenticate_user]
 
-    resources "/bmrs", BmrController
+    resources "/pp", PhysicalProfileController
   end
 
   # Other scopes may use custom stacks.

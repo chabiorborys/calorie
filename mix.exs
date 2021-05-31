@@ -10,7 +10,8 @@ defmodule Calorie.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      preferred_cli_env: [e2e: :test]
     ]
   end
 
@@ -43,7 +44,8 @@ defmodule Calorie.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:pbkdf2_elixir, "~> 1.0"}
+      {:pbkdf2_elixir, "~> 1.0"},
+      {:wallaby, "~> 0.28.0", only: :test}
     ]
   end
 
@@ -57,7 +59,9 @@ defmodule Calorie.MixProject do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test"],
+      e2e: ["ecto.create --quiet", "ecto.migrate", "phx.server", "test test/e2e"]
+ 
     ]
   end
 end

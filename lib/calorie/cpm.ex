@@ -6,7 +6,7 @@ defmodule Calorie.Cpm do
   import Ecto.Query, warn: false
   alias Calorie.Repo
 
-  alias Calorie.Cpm.Bmr
+  alias Calorie.Cpm.PhysicalProfile
   alias Calorie.Accounts
 
   @doc """
@@ -18,8 +18,8 @@ defmodule Calorie.Cpm do
       [%Bmr{}, ...]
 
   """
-  def list_bmrs do
-    Repo.all(Bmr)
+  def list_pp do
+    Repo.all(PhysicalProfile)
   end
 
   @doc """
@@ -36,7 +36,7 @@ defmodule Calorie.Cpm do
       ** (Ecto.NoResultsError)
 
   """
-  def get_bmr!(id), do: Repo.get!(Bmr, id)
+  def get_pp!(id), do: Repo.get!(PhysicalProfile, id)
 
   @doc """
   Creates a bmr.
@@ -50,9 +50,9 @@ defmodule Calorie.Cpm do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_bmr(%Accounts.User{} = user, attrs \\ %{}) do
-    %Bmr{}
-    |> Bmr.changeset(attrs)
+  def create_pp(%Accounts.User{} = user, attrs \\ %{}) do
+    %PhysicalProfile{}
+    |> PhysicalProfile.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
   end
@@ -69,8 +69,8 @@ defmodule Calorie.Cpm do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_bmr(%Bmr{} = bmr, attrs) do
-    bmr
+  def update_pp(%PhysicalProfile{} = physical_profile, attrs) do
+    physical_profile
     |> Bmr.changeset(attrs)
     |> Repo.update()
   end
@@ -87,8 +87,8 @@ defmodule Calorie.Cpm do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_bmr(%Bmr{} = bmr) do
-    Repo.delete(bmr)
+  def delete_pp(%PhysicalProfile{} = physical_profile) do
+    Repo.delete(physical_profile)
   end
 
   @doc """
@@ -100,23 +100,23 @@ defmodule Calorie.Cpm do
       %Ecto.Changeset{source: %Bmr{}}
 
   """
-  def change_bmr(%Bmr{} = bmr) do
-    Bmr.changeset(bmr, %{})
+  def change_pp(%PhysicalProfile{} = physical_profile) do
+    PhysicalProfile.changeset(physical_profile, %{})
   end
 
-  def list_user_bmr(%Accounts.User{} = user) do
-    Bmr
-    |> user_bmr_query(user)
+  def list_user_pp(%Accounts.User{} = user) do
+    PhysicalProfile
+    |> user_pp_query(user)
     |> Repo.all()
   end
 
-  def get_user_bmr!(%Accounts.User{} = user, id) do
-    Bmr
-    |> user_bmr_query(user)
+  def get_user_pp!(%Accounts.User{} = user, id) do
+    PhysicalProfile
+    |> user_pp_query(user)
     |> Repo.get!(id)
   end
 
-  defp user_bmr_query(query, %Accounts.User{id: user_id}) do
+  defp user_pp_query(query, %Accounts.User{id: user_id}) do
     from(b in query, where: b.user_id == ^user_id)
   end
 
