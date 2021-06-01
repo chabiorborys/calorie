@@ -45,7 +45,7 @@ defmodule Calorie.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:pbkdf2_elixir, "~> 1.0"},
-      {:wallaby, "~> 0.28.0", only: :test}
+      {:wallaby, "~> 0.28.0", [runtime: false, only: :test]}
     ]
   end
 
@@ -61,7 +61,7 @@ defmodule Calorie.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate", "test"],
       e2e: ["ecto.create --quiet", "ecto.migrate", "phx.server", "test test/e2e"]
- 
+
     ]
   end
 end

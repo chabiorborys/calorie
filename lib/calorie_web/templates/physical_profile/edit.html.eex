@@ -1,0 +1,5 @@
+<h1>Edit Physical Profile</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.physical_profile_path(@conn, :update, @pp)) %>
+
+<span><%= link "Back", to: Routes.physical_profile_path(@conn, :index) %></span>

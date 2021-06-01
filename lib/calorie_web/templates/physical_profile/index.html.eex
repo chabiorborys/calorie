@@ -1,0 +1,30 @@
+<h1>Listing Physical Profile</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Weight</th>
+      <th>Age</th>
+      <th>Height</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for pp <- @pps do %>
+    <tr>
+      <td><%= pp.weight %></td>
+      <td><%= pp.age %></td>
+      <td><%= pp.height %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.physical_profile_path(@conn, :show, pp) %></span>
+        <span><%= link "Edit", to: Routes.physical_profile_path(@conn, :edit, pp) %></span>
+        <span><%= link "Delete", to: Routes.physical_profile_path(@conn, :delete, pp), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Physical Profile", to: Routes.physical_profile_path(@conn, :new) %></span>
