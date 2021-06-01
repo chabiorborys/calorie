@@ -1,5 +1,6 @@
 defmodule Calorie.MixProject do
   use Mix.Project
+  @test_envs [:test, :e2e]
 
   def project do
     [
@@ -7,11 +8,11 @@ defmodule Calorie.MixProject do
       version: "0.1.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
+      test_paths: test_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps(),
-      preferred_cli_env: [e2e: :test]
+      deps: deps()
     ]
   end
 
@@ -26,8 +27,13 @@ defmodule Calorie.MixProject do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(env) when env in @test_envs do
+    ["lib", "test/support", "e2e_test/support"]
+  end
   defp elixirc_paths(_), do: ["lib"]
+
+  defp test_paths(:e2e), do: ["e2e_test"]
+  defp test_paths(_), do: ["test"]
 
   # Specifies your project dependencies.
   #
@@ -45,7 +51,7 @@ defmodule Calorie.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:pbkdf2_elixir, "~> 1.0"},
-      {:wallaby, "~> 0.28.0", [runtime: false, only: :test]}
+      {:wallaby, "~> 0.28.0", [runtime: false, only: @test_envs ]}
     ]
   end
 
@@ -60,8 +66,6 @@ defmodule Calorie.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate", "test"],
-      e2e: ["ecto.create --quiet", "ecto.migrate", "phx.server", "test test/e2e"]
-
     ]
   end
 end
