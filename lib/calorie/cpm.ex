@@ -71,7 +71,7 @@ defmodule Calorie.Cpm do
   """
   def update_pp(%PhysicalProfile{} = physical_profile, attrs) do
     physical_profile
-    |> Bmr.changeset(attrs)
+    |> PhysicalProfile.changeset(attrs)
     |> Repo.update()
   end
 

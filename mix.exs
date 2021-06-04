@@ -11,7 +11,7 @@ defmodule Calorie.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      preferred_cli_env: [e2e: :test]
+      preferred_cli_env: [e2e: :dev]
     ]
   end
 

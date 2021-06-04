@@ -12,7 +12,7 @@ config :calorie, Calorie.Repo,
 # you can enable the server option below.
 config :calorie, CalorieWeb.Endpoint,
   http: [port: 4000],
-  server: true
+  server: false
 
 # Print only warnings and errors during test
 config :logger, level: :warn
