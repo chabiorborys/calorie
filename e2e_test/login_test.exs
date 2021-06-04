@@ -6,6 +6,7 @@ defmodule E2E.LoginTest do
   import Wallaby.Query, only: [text_field: 1, button: 1, css: 2]
   alias Wallaby.{Element, Query}
 
+<<<<<<< HEAD:test/e2e/login_test.exs
 
   # feature "a user can register with the system", %{session: session} do
   #   session
@@ -17,6 +18,28 @@ defmodule E2E.LoginTest do
 
   #  Process.sleep(3_000)
   #  assert_text(session, "Listing Users")
+=======
+  setup do
+    # Explicitly get a connection before each test
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Calorie.Repo)
+  end
+
+  defp random_name() do
+    (?A..?Z) |> Enum.shuffle() |> Enum.take(10) |> List.to_string()
+  end
+
+  test "a user can register with the system" do
+    new_name = random_name()
+    {:ok, session} = Wallaby.start_session()
+    session
+    |> visit("http://localhost:4002/users/new")
+    |> fill_in(text_field("Name"), with: new_name)
+    |> fill_in(text_field("Username"), with: new_name)
+    |> fill_in(text_field("Password"), with: "123Pasword123")
+    |> find(Query.text("Create User"), fn el -> Element.click(el) end)
+
+   assert_text(session, "Listing Users")
+>>>>>>> f44ed5ba8801157c105bfdc2936f0509e1e0d7ea:e2e_test/login_test.exs
 
   # end
 
