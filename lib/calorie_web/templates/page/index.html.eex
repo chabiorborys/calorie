@@ -10,6 +10,9 @@
     <%= if @current_user do %>
       <li>
         <%= link "Your Cpm", to: Routes.physical_profile_path(@conn, :index) %>
+      </li>  
+      <li>
+        <%= link "Users", to: Routes.user_path(@conn, :index) %>
       </li>
     <% end %>
     </ul>

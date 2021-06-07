@@ -6,7 +6,6 @@ defmodule CalorieWeb.UserController do
 
   def index(conn, _params) do
     users = Accounts.list_users()
-    IO.inspect(conn)
     render(conn, "index.html", users: users)
   end
 
@@ -17,7 +16,6 @@ defmodule CalorieWeb.UserController do
 
   def new(conn, _params) do
     changeset = Accounts.change_registration(%User{}, %{})
-    IO.inspect(conn)
     render(conn, "new.html", changeset: changeset)
   end
 

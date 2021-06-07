@@ -26,7 +26,6 @@ defmodule CalorieWeb.PhysicalProfileController do
         conn
         |> put_flash(:info, "Physical Profile created successfully.")
         |> redirect(to: Routes.physical_profile_path(conn, :show, pp))
-        IO.inspect(conn)
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)

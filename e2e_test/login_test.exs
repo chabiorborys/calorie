@@ -6,19 +6,6 @@ defmodule E2E.LoginTest do
   import Wallaby.Query, only: [text_field: 1, button: 1, css: 2]
   alias Wallaby.{Element, Query}
 
-<<<<<<< HEAD:test/e2e/login_test.exs
-
-  # feature "a user can register with the system", %{session: session} do
-  #   session
-  #   |> visit("http://localhost:4000/users/new")
-  #   |> fill_in(text_field("Name"), with: "test4")
-  #   |> fill_in(text_field("Username"), with: "test4")
-  #   |> fill_in(text_field("Password"), with: "123Pasword123")
-  #   |> find(Query.text("Create User"), fn el -> Element.click(el) end)
-
-  #  Process.sleep(3_000)
-  #  assert_text(session, "Listing Users")
-=======
   setup do
     # Explicitly get a connection before each test
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Calorie.Repo)
@@ -28,43 +15,75 @@ defmodule E2E.LoginTest do
     (?A..?Z) |> Enum.shuffle() |> Enum.take(10) |> List.to_string()
   end
 
-  test "a user can register with the system" do
-    new_name = random_name()
-    {:ok, session} = Wallaby.start_session()
+  defp random_username() do
+    (?A..?Z) |> Enum.take(21) |> List.to_string()
+  end
+
+  feature "len('username') > 3, while creating an account", %{session: session} do
     session
     |> visit("http://localhost:4002/users/new")
-    |> fill_in(text_field("Name"), with: new_name)
-    |> fill_in(text_field("Username"), with: new_name)
+    |> fill_in(text_field("Name"), with: "test4")
+    |> fill_in(text_field("Username"), with: "te")
     |> fill_in(text_field("Password"), with: "123Pasword123")
     |> find(Query.text("Create User"), fn el -> Element.click(el) end)
 
-   assert_text(session, "Listing Users")
->>>>>>> f44ed5ba8801157c105bfdc2936f0509e1e0d7ea:e2e_test/login_test.exs
+    Process.sleep(1_000)
+    assert_text(session, "should be at least 3 character(s)")
+  end
 
-  # end
+  feature "len('username') < 20, while creating an account", %{session: session} do
+    new_username = random_username()
+    session
+    |> visit("http://localhost:4002/users/new")
+    |> fill_in(text_field("Name"), with: "test4")
+    |> fill_in(text_field("Username"), with: new_username)
+    |> fill_in(text_field("Password"), with: "123Pasword123")
+    |> find(Query.text("Create User"), fn el -> Element.click(el) end)
 
-  # feature "a user can Login with his credentials", %{session: session} do
+    Process.sleep(1_000)
+    assert_text(session, "should be at most 20 character(s)")
+
+
+  end
+
+
+  # test "a user can register with the system" do
+  #   new_name = random_name()
+  #   {:ok, session} = Wallaby.start_session()
   #   session
-  #   |> visit("http://localhost:4000/sessions/new")
+  #   |> visit("http://localhost:4002/users/new")
+  #   |> fill_in(text_field("Name"), with: "test4")
   #   |> fill_in(text_field("Username"), with: "test4")
   #   |> fill_in(text_field("Password"), with: "123Pasword123")
-  #   |> find(Query.button("Log in"), fn el -> Element.click(el) end)
+  #   |> find(Query.text("Create User"), fn el -> Element.click(el) end)
 
   #   Process.sleep(1_000)
-  #   assert_text(session, "Welcome to Calories")
+  #   assert_text(session, "Listing Users")
   # end
 
-  # feature "a user can Logout using log out button", %{session: session} do
-  #   session
-  #   |> visit("http://localhost:4000/sessions/new")
-  #   |> fill_in(text_field("Username"), with: "test4")
-  #   |> fill_in(text_field("Password"), with: "123Pasword123")
-  #   |> find(Query.button("Log in"), fn el -> Element.click(el) end)
-  #   |> find(Query.text("Log out"), fn el -> Element.click(el) end)
+  feature "a user can Login with his credentials", %{session: session} do
+    session
+    |> visit("http://localhost:4002/sessions/new")
+    |> fill_in(text_field("Username"), with: "test4")
+    |> fill_in(text_field("Password"), with: "123Pasword123")
+    |> find(Query.button("Log in"), fn el -> Element.click(el) end)
 
-  #   Process.sleep(8_000)
-  #   assert_text(session, "Welcome to Calories")
-  # end
+    Process.sleep(1_000)
+    assert_text(session, "Welcome to Calories")
+  end
+
+  feature "a user can Logout using log out button", %{session: session} do
+    session
+    |> visit("http://localhost:4002/sessions/new")
+    |> fill_in(text_field("Username"), with: "test4")
+    |> fill_in(text_field("Password"), with: "123Pasword123")
+    |> find(Query.button("Log in"), fn el -> Element.click(el) end)
+    |> find(Query.text("Log out"), fn el -> Element.click(el) end)
+
+    Process.sleep(1_000)
+    assert_text(session, "Welcome to Calories")
+  end
+
 
 
 end
