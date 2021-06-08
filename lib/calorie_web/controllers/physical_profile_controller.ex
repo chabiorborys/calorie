@@ -4,6 +4,7 @@ defmodule CalorieWeb.PhysicalProfileController do
   alias Calorie.Cpm
   alias Calorie.Cpm.PhysicalProfile
   alias Calorie.Products
+  alias Calorie.Models.Bmr
 
   def action(conn, _) do
     args = [conn, conn.params, conn.assigns.current_user]
@@ -17,7 +18,17 @@ defmodule CalorieWeb.PhysicalProfileController do
 
   def new(conn, _params, _current_user) do
     changeset = Cpm.change_pp(%PhysicalProfile{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, activity_choices: activity_list())
+  end
+
+  defp activity_list do
+    [
+      "Inactivity, sedentary work": "1",
+      "Low activity, sedentary work, 1-2 workouts a week": "2",
+      "Medium activity, sedentary work, 3-4 workouts a week": "3",
+      "High activity, physical work, 3-4 workouts a week": "4",
+      "Very high activity, professional athletes, people training every day": "5"
+    ]
   end
 
   def create(conn, %{"physical_profile" => pp_params}, current_user) do
@@ -36,22 +47,9 @@ defmodule CalorieWeb.PhysicalProfileController do
     #Retrviving users bmr inforamtions
     pp = Cpm.get_user_pp!(current_user, id)
     #Calculating users bmr
-    user_bmr =
-      case pp.sex do
-        "Female" -> (9.99 * pp.weight + 6.25 * pp.height - 4.92 * pp.age) - 161
-        "Male" -> (9.99 * pp.weight + 6.25 * pp.height - 4.92 * pp.age) + 5
-      end
-
+    user_bmr = Bmr.bmr_for_user(pp)
     #Calculating users cpm
-    user_cpm =
-      case pp.physical_activity do
-        "Inactivity, sedentary work" -> user_bmr * 1.2
-        "Low activity, sedentary work, 1-2 workouts a week" -> user_bmr * 1.3
-        "Medium activity, sedentary work, 3-4 workouts a week" -> user_bmr * 1.5
-        "High activity, physical work, 3-4 workouts a week" -> user_bmr * 1.7
-        "Very high activity, professional athletes, people training every day" -> user_bmr * 1.9
-      end
-
+    user_cpm = Bmr.cpm_for_user(pp, user_bmr)
 
     #Retriving products
     products = Products.list_foods
@@ -63,7 +61,7 @@ defmodule CalorieWeb.PhysicalProfileController do
   def edit(conn, %{"id" => id}, current_user) do
     pp = Cpm.get_user_pp!(current_user, id)
     changeset = Cpm.change_pp(pp)
-    render(conn, "edit.html", pp: pp, changeset: changeset)
+    render(conn, "edit.html", pp: pp, changeset: changeset, activity_choices: activity_list())
   end
 
   def update(conn, %{"id" => id, "pp" => pp_params}, current_user) do
@@ -76,7 +74,7 @@ defmodule CalorieWeb.PhysicalProfileController do
         |> redirect(to: Routes.physical_profile_path(conn, :show, pp))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", pp: pp, changeset: changeset)
+        render(conn, "edit.html", pp: pp, changeset: changeset, activity_choices: activity_list())
     end
   end
 
