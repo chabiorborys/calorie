@@ -1,4 +1,6 @@
 defmodule Calorie.Products.Food do
+  import Ecto.Query
+  import Ecto
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -14,5 +16,13 @@ defmodule Calorie.Products.Food do
     food
     |> cast(attrs, [:name, :calories])
     |> validate_required([:name, :calories])
+  end
+
+  def alphabetical(query) do
+    from f in query, order_by: f.name
+  end
+
+  def names_and_ids(query) do
+    from c in query, select: {c.name, c.id}
   end
 end

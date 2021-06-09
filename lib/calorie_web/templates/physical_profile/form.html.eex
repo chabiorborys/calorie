@@ -25,6 +25,8 @@
   <%= select f, :physical_activity, @activity_choices, prompt: "Choose your life activity" %>
   <%= error_tag f, :physical_activity%>
 
+  <%= label f, :food_id, "Food" %>
+  <%= select f, :food_id, @foods, prompt: "Choose a product" %>
   <div>
     <%= submit "Save" %>
   </div>

@@ -27,6 +27,7 @@ defmodule CalorieWeb.Router do
     pipe_through [:browser, :authenticate_user]
 
     resources "/pp", PhysicalProfileController
+    # get "/consumption/:id", ConsumptionController, :info
   end
 
   # Other scopes may use custom stacks.

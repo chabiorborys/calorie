@@ -5,6 +5,9 @@ defmodule CalorieWeb.PhysicalProfileController do
   alias Calorie.Cpm.PhysicalProfile
   alias Calorie.Products
   alias Calorie.Models.Bmr
+  alias Calorie.Products.Food
+
+  plug :load_food when action in [:new, :create, :edit, :update]
 
   def action(conn, _) do
     args = [conn, conn.params, conn.assigns.current_user]
@@ -30,6 +33,7 @@ defmodule CalorieWeb.PhysicalProfileController do
       "Very high activity, professional athletes, people training every day": "5"
     ]
   end
+
 
   def create(conn, %{"physical_profile" => pp_params}, current_user) do
     case Cpm.create_pp(current_user, pp_params) do
@@ -85,5 +89,15 @@ defmodule CalorieWeb.PhysicalProfileController do
     conn
     |> put_flash(:info, "Physical Profile deleted successfully.")
     |> redirect(to: Routes.physical_profile_path(conn, :index))
+  end
+
+  defp load_food(conn, _) do
+    query =
+      Food
+      |> Food.alphabetical
+      |> Food.names_and_ids
+    foods = Repo.all query
+    assign(conn, :foods, foods)
+
   end
 end

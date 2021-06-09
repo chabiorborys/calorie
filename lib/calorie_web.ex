@@ -21,11 +21,12 @@ defmodule CalorieWeb do
     quote do
       use Phoenix.Controller, namespace: CalorieWeb
 
+      import Ecto.Query, only: [from: 1, from: 2]
       import Plug.Conn
       import CalorieWeb.Gettext
       import CalorieWeb.Auth, only: [authenticate_user: 2] #New import
       alias CalorieWeb.Router.Helpers, as: Routes
-
+      alias Calorie.Repo
     end
   end
 
