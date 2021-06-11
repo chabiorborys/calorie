@@ -7,6 +7,12 @@ defmodule Calorie.Products.Food do
   schema "foods" do
     field :calories, :integer
     field :name, :string
+    many_to_many(
+      :users,
+      Calorie.Accounts.User,
+      join_through: "movies_actors",
+      on_replace: :delete
+    )
 
     timestamps()
   end

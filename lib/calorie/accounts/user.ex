@@ -7,6 +7,12 @@ defmodule Calorie.Accounts.User do
     field :username, :string
     field :password, :string, virtual: true
     field :password_hash, :string
+    many_to_many(
+      :foods,
+      Calorie.Products.Food,
+      join_through: "users_foods",
+      on_replace: :delete
+    )
 
     timestamps()
   end

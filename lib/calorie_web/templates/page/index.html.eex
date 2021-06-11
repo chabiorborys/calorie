@@ -1,24 +1,42 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Calories" %></h1>
-  <p>An app that will help you<br/>keep your diet in line!</p>
-</section>
+<html>
+  <head>
+  </head>
+  <body>
+      <section class="phx-hero">
+        <h1><%= gettext "Welcome to %{name}!", name: "Calories" %></h1>
+        <p>An app that will help you<br/>keep your diet in line!</p>
+      </section>
 
-<section class="row">
-  <article class="column">
-    <h2>Your Profile</h2>
-    <ul>
-    <%= if @current_user do %>
-      <li>
-        <%= link "Your Cpm", to: Routes.physical_profile_path(@conn, :index) %>
-      </li> 
-      <li>
-        <%= link "Users", to: Routes.user_path(@conn, :index) %>
-      </li>
-      <li>
-        <%= link "Foods", to: Routes.food_path(@conn, :index) %> 
-      </li>
-    <% end %>
-    </ul>
-
-  </article>
-</section>
+      <section class="row">
+        <article class="column">
+          <h2>Your Profile</h2>
+          <ul>
+          <%= if @current_user do %>
+            <h2 style = "position:absolute; left:350px; top:275px;">User CPM: <br> <%= @user_cpm %></h2>
+            <li>
+              <%= link "Your Cpm", to: Routes.physical_profile_path(@conn, :index) %>
+            </li> 
+            <li>
+              <%= link "Users", to: Routes.user_path(@conn, :index) %>
+            </li>
+            <li>
+              <%= link "Foods", to: Routes.food_path(@conn, :index) %> 
+            </li>
+          <% end %>
+          </ul>
+          <%# <%= form_for @changeset, Routes.user_path(@conn, :create), fn f -> %>
+            <%# <%= if @changeset.action do %> %>
+              <%# <div class="alert alert-danger">
+                <p> Oops, something went wrong! Please check the errors below.</p>
+              </div> %>
+            <%# <% end %> %>
+            <%# <%= label f, :food_id, "Food" %>
+            <%# <%= select f, :food_id, @foods, prompt: "Choose a product" %> %>
+            <%# <div> %>
+              <%# <%= submit "Save" %> %>
+            <%# </div> %>
+          <%# <% end %> %> %> %>
+        </article>
+      </section>
+  </body>
+</html>
