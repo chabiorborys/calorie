@@ -15,6 +15,8 @@ defmodule E2E.FormTest do
     Process.sleep(1_000)
     session
     |> visit("http://localhost:4000/manage/pp/new")
+    Process.sleep(1_000)
+    session
     |> fill_in(text_field("Weight"), with: "90")
     |> fill_in(text_field("Age"), with: "27")
     |> fill_in(text_field("Height"), with: "190")

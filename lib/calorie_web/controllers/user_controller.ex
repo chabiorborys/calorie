@@ -20,6 +20,7 @@ defmodule CalorieWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
+    IO.inspect(user_params)
     case Accounts.register_user(user_params) do
       {:ok, user} ->
         conn

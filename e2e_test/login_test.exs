@@ -16,7 +16,11 @@ defmodule E2E.LoginTest do
   end
 
   defp random_username() do
-    (?A..?Z) |> Enum.take(21) |> List.to_string()
+    (?A..?Z) |> Enum.shuffle() |> Enum.take(10) |> List.to_string()
+  end
+
+  defp too_long_random_username() do
+    (?A..?Z) |> Enum.shuffle() |> Enum.take(21) |> List.to_string()
   end
 
   feature "len('username') > 3, while creating an account", %{session: session} do
@@ -36,7 +40,7 @@ defmodule E2E.LoginTest do
     session
     |> visit("http://localhost:4002/users/new")
     |> fill_in(text_field("Name"), with: "test4")
-    |> fill_in(text_field("Username"), with: new_username)
+    |> fill_in(text_field("Username"), with: too_long_random_username())
     |> fill_in(text_field("Password"), with: "123Pasword123")
     |> find(Query.text("Create User"), fn el -> Element.click(el) end)
 
@@ -47,24 +51,24 @@ defmodule E2E.LoginTest do
   end
 
 
-  # test "a user can register with the system" do
-  #   new_name = random_name()
-  #   {:ok, session} = Wallaby.start_session()
-  #   session
-  #   |> visit("http://localhost:4002/users/new")
-  #   |> fill_in(text_field("Name"), with: "test4")
-  #   |> fill_in(text_field("Username"), with: "test4")
-  #   |> fill_in(text_field("Password"), with: "123Pasword123")
-  #   |> find(Query.text("Create User"), fn el -> Element.click(el) end)
+  test "a user can register with the system" do
+    new_name = random_name()
+    {:ok, session} = Wallaby.start_session()
+    session
+    |> visit("http://localhost:4002/users/new")
+    |> fill_in(text_field("Name"), with: random_name())
+    |> fill_in(text_field("Username"), with: random_username())
+    |> fill_in(text_field("Password"), with: "123Pasword123")
+    |> find(Query.text("Create User"), fn el -> Element.click(el) end)
 
-  #   Process.sleep(1_000)
-  #   assert_text(session, "Listing Users")
-  # end
+    Process.sleep(1_000)
+    assert_text(session, "Listing Users")
+  end
 
   feature "a user can Login with his credentials", %{session: session} do
     session
     |> visit("http://localhost:4002/sessions/new")
-    |> fill_in(text_field("Username"), with: "test4")
+    |> fill_in(text_field("Username"), with: random_username())
     |> fill_in(text_field("Password"), with: "123Pasword123")
     |> find(Query.button("Log in"), fn el -> Element.click(el) end)
 
@@ -75,7 +79,7 @@ defmodule E2E.LoginTest do
   feature "a user can Logout using log out button", %{session: session} do
     session
     |> visit("http://localhost:4002/sessions/new")
-    |> fill_in(text_field("Username"), with: "test4")
+    |> fill_in(text_field("Username"), with: random_username())
     |> fill_in(text_field("Password"), with: "123Pasword123")
     |> find(Query.button("Log in"), fn el -> Element.click(el) end)
     |> find(Query.text("Log out"), fn el -> Element.click(el) end)
