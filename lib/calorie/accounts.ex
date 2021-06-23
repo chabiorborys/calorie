@@ -1,6 +1,7 @@
 defmodule Calorie.Accounts do
   alias Calorie.Repo
   alias Calorie.Accounts.User
+  alias Calorie.Products
 
   def list_users do
     Repo.all(User)
@@ -25,6 +26,7 @@ defmodule Calorie.Accounts do
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
+    |> maybe_put_foods(attrs) #new line
     |> Repo.insert()
   end
 
@@ -53,4 +55,13 @@ defmodule Calorie.Accounts do
         {:error, :not_found}
     end
   end
+
+  defp maybe_put_foods(changeset, []), do: changeset
+
+  defp maybe_put_foods(changeset, attrs) do
+    foods = Products.get_foods(attrs["foods"])
+
+    Ecto.Changeset.put_assoc(changeset, :foods, foods)
+  end
+
 end

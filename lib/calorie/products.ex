@@ -101,4 +101,17 @@ defmodule Calorie.Products do
   def change_food(%Food{} = food) do
     Food.changeset(food, %{})
   end
+
+  def get_foods(nil), do: []
+
+  def get_foods(ids) do
+    Repo.all(from f in Food, where: f.id in ^ids)
+  end
+
+  def list_alphabetical_foods do
+    Food
+    |> Food.alphabetical()
+    |> Repo.all()
+  end
+
 end

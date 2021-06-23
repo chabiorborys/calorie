@@ -57,7 +57,7 @@ defmodule E2E.LoginTest do
     session
     |> visit("http://localhost:4002/users/new")
     |> fill_in(text_field("Name"), with: random_name())
-    |> fill_in(text_field("Username"), with: random_username())
+    |> fill_in(text_field("Username"), with: "test1")
     |> fill_in(text_field("Password"), with: "123Pasword123")
     |> find(Query.text("Create User"), fn el -> Element.click(el) end)
 
@@ -68,7 +68,7 @@ defmodule E2E.LoginTest do
   feature "a user can Login with his credentials", %{session: session} do
     session
     |> visit("http://localhost:4002/sessions/new")
-    |> fill_in(text_field("Username"), with: random_username())
+    |> fill_in(text_field("Username"), with: "test1")
     |> fill_in(text_field("Password"), with: "123Pasword123")
     |> find(Query.button("Log in"), fn el -> Element.click(el) end)
 
@@ -79,7 +79,7 @@ defmodule E2E.LoginTest do
   feature "a user can Logout using log out button", %{session: session} do
     session
     |> visit("http://localhost:4002/sessions/new")
-    |> fill_in(text_field("Username"), with: random_username())
+    |> fill_in(text_field("Username"), with: "test1")
     |> fill_in(text_field("Password"), with: "123Pasword123")
     |> find(Query.button("Log in"), fn el -> Element.click(el) end)
     |> find(Query.text("Log out"), fn el -> Element.click(el) end)

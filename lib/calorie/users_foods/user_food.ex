@@ -17,12 +17,12 @@ defmodule Calorie.UsersFoods.UserFood do
     users_foods
     |> cast(params, @required_fields)
     |> validate_required(@required_fields)
-    |> foreign_key_constraint(:user_id)
-    |> foreign_key_constraint(:food_id)
-    |> unique_constraint([:users, :foods],
-      name: :user_id_food_id_unique_index,
-      message: "dupa123"
-    )
+    # |> foreign_key_constraint(:user_id)
+    # |> foreign_key_constraint(:food_id)
+    # |> unique_constraint([:users, :foods],
+      # name: :user_id_food_id_unique_index,
+      # message: "dupa123"
+    # )
 
   end
 end

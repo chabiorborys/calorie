@@ -22,6 +22,17 @@
             <li>
               <%= link "Foods", to: Routes.food_path(@conn, :index) %> 
             </li>
+            <div class="form-group">
+            <%= form_for @changeset, Routes.consumption_path(@conn, :create), fn f ->  %>
+            
+              <%= label f, :food_id, "Foods" %>
+              <%= select f, :food_id, @foods, prompt: "Choose a product" %>
+              <div>
+               <%= submit "Save" %>
+              </div>
+            <% end %>
+            
+            </div>
           <% end %>
           </ul>
         </article>

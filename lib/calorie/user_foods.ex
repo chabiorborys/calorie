@@ -29,6 +29,10 @@ defmodule Calorie.UserFoods do
     UserFood.changeset(user_food, %{})
   end
 
-
+  def create_foods(attrs \\ %{}) do
+    %UserFood{}
+    |> UserFood.changeset(attrs)
+    |> Repo.insert()
+  end
 
 end

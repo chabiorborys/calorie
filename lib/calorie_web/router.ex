@@ -18,6 +18,7 @@ defmodule CalorieWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/create", ConsumptionController, :create
     resources "/users", UserController, only: [:index, :show, :new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     resources "/foods", FoodController

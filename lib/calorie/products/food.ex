@@ -10,7 +10,7 @@ defmodule Calorie.Products.Food do
     many_to_many(
       :users,
       Calorie.Accounts.User,
-      join_through: "movies_actors",
+      join_through: "users_foods",
       on_replace: :delete
     )
 
@@ -29,6 +29,6 @@ defmodule Calorie.Products.Food do
   end
 
   def names_and_ids(query) do
-    from c in query, select: {c.name, c.id}
+    from f in query, select: {f.name, f.id}
   end
 end
